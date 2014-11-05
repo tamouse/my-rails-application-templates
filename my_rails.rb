@@ -46,7 +46,7 @@ generate('cucumber:install')
 run("bundle binstub rspec-core")
 run("bundle binstub cucumber")
 
-generate(:controller, "static_pages", "index")
+generate(:controller, "static_pages", "index", "--no-helper", "--no-assets", "--no-view-specs")
 insert_into_file("config/routes.rb", "  root 'static_pages#index'\n", after: %r'# root.*\n')
 remove_file("app/views/static_pages/index.html.haml")
 create_file("app/views/static_pages/index.html.haml") do
