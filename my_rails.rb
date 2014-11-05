@@ -47,7 +47,8 @@ run("bundle binstub rspec-core")
 run("bundle binstub cucumber")
 
 generate(:controller, "static_pages", "index", "--no-helper", "--no-assets", "--no-view-specs")
-insert_into_file("config/routes.rb", "  root 'static_pages#index'\n", after: %r'# root.*\n')
+route("root 'static_pages#index'")
+
 remove_file("app/views/static_pages/index.html.haml")
 create_file("app/views/static_pages/index.html.haml") do
   %q{
@@ -58,6 +59,34 @@ create_file("app/views/static_pages/index.html.haml") do
     %p Newly generated rails app with pry-rails, rspec, cucumber, factory girl, haml, and twitter bootstrap already baked in!
 }
 end
+
+
+run("bundle exec html2haml app/views/layouts/application.html.erb app/views/layouts/application.html.haml")
+insert_into_file("app/views/layouts/application.html.haml",%q{
+    = render partial: "header"}, before: %r{\n.*= yield})
+append_to_file("app/views/layouts/application.html.haml", %q{    = render partial: "footer"
+})
+remove_file("app/views/layouts/application.html.erb")
+
+empty_directory("app/views/application/")
+create_file("app/views/application/_header.html.haml", %q{.navbar.navbar-default{role: "navigation"}
+  .container-fluid
+    .navbar-header
+      %button.navbar-toggle.collapsed{type: "button", data: {toggle: "collapse", target: "#navbar-collapse-1"}}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{href: "/"} New Rails App
+
+    .collapse.navbar-collapse#navbar-collapse-1
+      %ul.nav.navbar-nav
+        %li= link_to "Welcome", static_pages_index_path
+
+})
+
+create_file("app/views/application/_footer.html.haml", %q{.well.text-center.text-muted Copyright &copy; Tamara Temple Web Development.
+})
 
 create_file("features/static_pages.feature") do
   %q{Feature: Site has a static welcome page
