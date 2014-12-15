@@ -29,7 +29,6 @@ gem_group :development, :test do
   gem 'pry-rescue'
   gem 'awesome_print'
   gem 'rspec-rails'
-  gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'better_errors'
@@ -41,10 +40,7 @@ end
 run("bundle install")
 
 generate('rspec:install')
-generate('cucumber:install')
-
 run("bundle binstub rspec-core")
-run("bundle binstub cucumber")
 
 generate(:controller, "static_pages", "index", "--no-helper", "--no-assets", "--no-view-specs")
 route("root 'static_pages#index'")
@@ -56,7 +52,7 @@ create_file("app/views/static_pages/index.html.haml") do
   .row
     %h1 Welcome!
 
-    %p Newly generated rails app with pry-rails, rspec, cucumber, factory girl, haml, and twitter bootstrap already baked in!
+    %p Newly generated rails app with pry-rails, rspec, factory girl, haml, and twitter bootstrap already baked in!
 }
 end
 
@@ -88,34 +84,6 @@ create_file("app/views/application/_header.html.haml", %q{.navbar.navbar-default
 create_file("app/views/application/_footer.html.haml", %q{.well.text-center.text-muted Copyright &copy; Tamara Temple Web Development.
 })
 
-create_file("features/static_pages.feature") do
-  %q{Feature: Site has a static welcome page
-  In order to ensure the site is assembled correctly
-  As a developer
-  I want the new site to have a static welcome page
-
-  Scenario: Site has a static welcome page
-    When I visit the home page
-    Then I recieve an ok status
-    And the page contains "Welcome"
-}
-end
-
-create_file("features/step_definitions/static_pages_steps.rb") do
-  %q{When(/^I visit the home page$/) do
-  get '/'
-end
-
-Then(/^I recieve an ok status$/) do
-  expect(last_response.status).to eq(200)
-end
-
-Then(/^the page contains "(.*?)"$/) do |arg1|
-  expect(last_response.body).to have_content(arg1)
-end
-}
-end
-
 rake("db:create")
 rake("db:migrate")
 
@@ -128,7 +96,6 @@ A newly generated Rails application with the following already baked in:
 
 * pry
 * rspec
-* cucumber
 * factory girl
 * haml
 * twitter bootstrap
@@ -144,7 +111,6 @@ Tests are run with:
 or:
 
     bin/rspec
-    bin/cucumber
 
 Information you should add here:
 
