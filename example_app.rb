@@ -1,5 +1,4 @@
 # Run with rails options: --skip-bundle --skip-test-unit --skip-spring --skip-turbolinks -m /Users/tamara/.railsrc.d/example_app.rb
-
 remove_file("app/assets/stylesheets/application.css")
 create_file("app/assets/stylesheets/application.css.scss") do
   %q{
@@ -73,21 +72,6 @@ run("bundle install")
 generate('rspec:install')
 run("bundle binstub rspec-core")
 
-generate(:controller, "static_pages", "index", "--no-helper", "--no-assets", "--no-view-specs")
-route("root 'static_pages#index'")
-
-remove_file("app/views/static_pages/index.html.haml")
-create_file("app/views/static_pages/index.html.haml") do
-  %q{
-.jumbotron
-  .container
-    %h1 Welcome!
-
-    %p Newly generated rails app with pry-rails, rspec, factory girl, haml, and twitter bootstrap already baked in!
-}
-end
-
-
 run("bundle exec html2haml app/views/layouts/application.html.erb app/views/layouts/application.html.haml")
 insert_into_file("app/views/layouts/application.html.haml",%q{
     = render partial: "header"
@@ -109,11 +93,11 @@ create_file("app/views/application/_header.html.haml", %q{.navbar.navbar-default
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.navbar-brand{href: root_path} New Rails App
+      %a.navbar-brand{href: '#'} Example Rails App
 
     .collapse.navbar-collapse#navbar-collapse-1
       %ul.nav.navbar-nav
-        %li= link_to "Welcome", static_pages_index_path
+        %li= link_to "Welcome", '#'
 
 })
 
@@ -154,40 +138,18 @@ rake("db:migrate")
 remove_file("README.rdoc")
 create_file("README.md") do
   %Q{
-# README
+## Rails Example Application
 
-A newly generated Rails application with the following already baked in:
+### Problem
 
-* pry
-* rspec
-* factory girl
-* haml
-* twitter bootstrap
-* additional support for twitter bootstrap form building
+### Methodology
 
-The database you've chosen has already been created.
+### Conclusion
 
-There is a static startup page at root.
-
-Tests are run with:
-
-    bin/rake # with no parameters
-
-or:
-
-    bin/rspec
-
-Information you should add here:
-
-* Ruby version
-* System dependencies
-* Configuration
-* Services (job queues, cache servers, search engines, etc.)
-* Deployment instructions
+### Links
 
 }
 end
-
 
 git :init
 git add: '.'
