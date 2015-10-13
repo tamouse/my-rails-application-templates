@@ -1,0 +1,13 @@
+.container
+<% for attribute in attributes -%>
+  %p
+    %b <%= attribute.human_name %>:
+    = @<%= singular_table_name %>.<%= attribute.name %>
+<% end -%>
+
+%hr
+
+.container
+  = link_to 'Edit', edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class: "btn btn-default"
+  \|
+  = link_to 'List', <%= index_helper %>_path, class: "btn btn-default"

@@ -1,0 +1,15 @@
+.container
+  - if @<%= singular_table_name %>.errors.any?
+    .panel.panel-danger
+      %h2.panel-heading= "#{pluralize(@<%= singular_table_name %>.errors.count, "error")} prohibited this <%= singular_table_name %> from being saved:"
+      %ul.panel-body
+        - @<%= singular_table_name %>.errors.full_messages.each do |msg|
+          %li= msg
+
+.container
+  = twitter_bootstrap_form_for @<%= singular_table_name %>, layout: :horizontal do |<%= singular_table_name %>|
+<% for attribute in attributes -%>
+    = <%= singular_table_name %>.<%= attribute.field_type %> :<%= attribute.name %>
+<% end -%>
+    = <%= singular_table_name %>.actions do
+      = <%= singular_table_name %>.submit 'Save'

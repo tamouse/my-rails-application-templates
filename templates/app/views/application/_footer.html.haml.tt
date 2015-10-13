@@ -1,0 +1,3 @@
+%footer.footer.bg-info
+  .container
+    .text-muted.text-center Copyright &copy; #{Time.now.year} Tamara Temple Web Development

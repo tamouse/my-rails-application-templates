@@ -1,0 +1,9 @@
+.container
+  .page-header
+    %h1 New <%= singular_table_name %>
+
+  = render 'form'
+
+%hr
+.container
+  = link_to 'List', <%= index_helper %>_path, class: "btn btn-default"
