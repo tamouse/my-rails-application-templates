@@ -39,8 +39,9 @@ remove_file "app/views/layouts/application.html.erb"
 source_paths << File.dirname(__FILE__)
 directory "templates/lib", "lib"
 directory "templates/app", "app"
-directory "templates/scripts", "scripts"
-chmod "scripts/setup.sh", 0755
+copy_file "templates/setup.sh", "setup.sh"
+chmod "setup.sh", 0755
+
 
 append_to_file("app/assets/javascripts/application.js") do
   %q{//= require bootstrap-sprockets
@@ -50,4 +51,13 @@ end
 remove_file "README.rdoc"
 template "templates/README.md", "README.md"
 
-say "New rails application #{@app_name} assembled!", :green
+say "\n"
+say "*"*70, :green
+say "\n"
+say "--- DONE ---\n\n", :green
+say "New rails application #{@app_name} generated!\n\n", :green
+say "Complete setup by running the ./setup.sh script\n", :cyan
+say "in your development environment.\n", :cyan
+say "\n"
+say "*"*70, :green
+say "\n"
