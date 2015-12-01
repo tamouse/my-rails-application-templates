@@ -4,8 +4,9 @@ gem 'devise' # for authentication
 gem 'pundit' # for authorization
 run 'bundle install'
 generate("devise:install")
+generate("pundit:install")
 
 git add: '.'
-git commit: "-a -m 'Add: Devise gem'"
+git commit: "-a -m 'Add: Devise and Pundit gems'"
 rake("default")
 say "Added devise to new rails app."

@@ -1,4 +1,14 @@
-# Run with rails options: --skip-bundle --skip-test-unit --skip-spring --skip-turbolinks -m /Users/tamara/.railsrc.d/example_app.rb
+# my standard rails app template
+#
+# * bootstrap
+# * fontawesome
+# * haml
+# * pry-rails
+# *
+
+# Run with rails options: --skip-bundle --skip-spring --skip-turbolinks -m /Users/tamara/.railsrc.d/example_app.rb
+
+@app_name = File.basename(Dir.pwd, '.*')
 
 remove_file("app/assets/stylesheets/application.css")
 create_file("app/assets/stylesheets/application.css.scss") do
@@ -42,7 +52,7 @@ end
 gsub_file("Gemfile", %r{^#.*}, '')
 gsub_file("Gemfile", %r{^.*turbolinks.*}, '')
 gsub_file("Gemfile", %r{^.*sdoc.*}, '')
-run("sed -i.bak Gemfile -e '/^[ ]*$/d'") # remove blank lines!
+run("sed -i.bak Gemfile -e '/^ *$/d'") # remove blank lines!
 
 gem 'therubyracer',  platforms: :ruby
 gem 'haml-rails'
@@ -58,8 +68,6 @@ gem_group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'awesome_print'
-  gem 'rspec-rails'
-  gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'better_errors'
@@ -70,10 +78,7 @@ end
 
 run("bundle install")
 
-generate('rspec:install')
-run("bundle binstub rspec-core")
-
-generate(:controller, "static_pages", "index", "--no-helper", "--no-assets", "--no-view-specs")
+generate(:controller, "static_pages", "index", "--no-helper", "--no-assets")
 route("root 'static_pages#index'")
 
 remove_file("app/views/static_pages/index.html.haml")
@@ -93,7 +98,6 @@ insert_into_file("app/views/layouts/application.html.haml",%q{
     = render partial: "header"
     = render partial: "flash_area"
 
-    .container
   }, before: %r{\n.*= yield})
 append_to_file("app/views/layouts/application.html.haml", %q{
     = render partial: "footer"
@@ -101,7 +105,7 @@ append_to_file("app/views/layouts/application.html.haml", %q{
 remove_file("app/views/layouts/application.html.erb")
 
 empty_directory("app/views/application/")
-create_file("app/views/application/_header.html.haml", %q{.navbar.navbar-default{role: "navigation"}
+create_file("app/views/application/_header.html.haml", %Q{.navbar.navbar-default{role: "navigation"}
   .container-fluid
     .navbar-header
       %button.navbar-toggle.collapsed{type: "button", data: {toggle: "collapse", target: "#navbar-collapse-1"}}
@@ -109,7 +113,7 @@ create_file("app/views/application/_header.html.haml", %q{.navbar.navbar-default
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.navbar-brand{href: root_path} New Rails App
+      %a.navbar-brand{href: root_path} #{@app_name}
 
     .collapse.navbar-collapse#navbar-collapse-1
       %ul.nav.navbar-nav
@@ -154,7 +158,7 @@ rake("db:migrate")
 remove_file("README.rdoc")
 create_file("README.md") do
   %Q{
-# README
+# #{@app_name} README
 
 A newly generated Rails application with the following already baked in:
 
@@ -172,10 +176,6 @@ There is a static startup page at root.
 Tests are run with:
 
     bin/rake # with no parameters
-
-or:
-
-    bin/rspec
 
 Information you should add here:
 
