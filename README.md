@@ -1,3 +1,7 @@
+# THIS REPO IS FAR OUT OF DATE
+
+## It has not been updated for Rails 5
+
 # My Rails Application Template
 
 This template is how I like to have new rails applications set up.
@@ -26,7 +30,7 @@ Other `rails new` options still work as well, such as `--database` and so on.
 
 ## Installation
 
-    $ git clone git@github.com:tamouse/my_rails_template_gist.git $HOME/.railsrc.d
+    $ git clone git@github.com:tamouse/my-rails-application-templates.git $HOME/.railsrc.d
 
 ## Configuration
 
