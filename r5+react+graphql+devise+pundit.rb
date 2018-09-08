@@ -13,7 +13,12 @@ New rails app created with template.
 README
 end
 
-ruby_version = File.read(".ruby-version")
+if File.exist? ".ruby-version"
+  ruby_version = File.read(".ruby-version")
+else
+  ruby_version = `ruby -v`
+end
+
 say "Created with ruby version #{ruby_version}"
 append_to_file(@readme) do <<-"README"
 
