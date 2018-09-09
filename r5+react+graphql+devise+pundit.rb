@@ -172,13 +172,13 @@ if yes?("Do you want to install graphql?")
 
   say "injecting methods into Types::BaseObject class"
   # inject_into_class "app/graphql/types/base_object.rb", 'Types::BaseObject' do <<-'METHODS'
-  insert_into_file "app/graphql/typs/base_object.rb", "class BaseObject < GraphQL::Schema::Object\n" do <<-'METHODS'
+  insert_into_file "app/graphql/types/base_object.rb", after: "class BaseObject < GraphQL::Schema::Object\n" do <<-'METHODS'
 
-    def created_at_ms
+    def created_at
       time_to_ms(object.created_at)
     end
 
-    def updated_at_ms
+    def updated_at
       time_to_ms(object.updated_at)
     end
 
@@ -193,7 +193,7 @@ METHODS
 
   say "Injeccting methods into Types::BaseInputObject class"
   # inject_into_class "app/graphql/types/base_input_object.rb", 'Types::BaseInputObject' do <<-'METHODS'
-  insert_into_file "app/graphql/types/base_input_object.rb", "class BaseInputObject < GraphQL::Schema::InputObject\n", do <<-'METHODS'
+  insert_into_file "app/graphql/types/base_input_object.rb", after: "class BaseInputObject < GraphQL::Schema::InputObject\n" do <<-'METHODS'
 
     def ms_to_time(ms)
       Time.at(ms / 1000.0).utc
@@ -203,7 +203,7 @@ METHODS
   end
 
   if @user_created
-    generate "graphql:object UserGraph id:!Int email:!String username:String preferred_name:String preferred_pronouns:String admin:!Boolean created_at:!DateTime created_at_ms:!Int updated_at:!DateTime updated_at_ms:!Int"
+    generate "graphql:object UserGraph id:!Int email:!String username:String preferred_name:String preferred_pronouns:String admin:!Boolean created_at:!Int updated_at:!Int"
     gsub_file "app/graphql/types/user_graph_type.rb", /Types::DateTimeType/, "GraphQL::Types::ISO8601DateTime"
   end
 
@@ -220,8 +220,8 @@ Created `Types::UserGraphType` with fields:
 - `preferred_name`
 - `preferred_pronouns`
 - `admin`
-- `created_at` and `created_at_ms`
-- `updated_at` and `updated_at_ms`
+- `created_at`
+- `updated_at`
 
 
 TEXT
