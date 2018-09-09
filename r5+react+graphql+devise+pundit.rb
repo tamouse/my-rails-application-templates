@@ -30,6 +30,7 @@ end
 say "Adding standard development and test gems"
 comment_lines("Gemfile", /coffee-rails/)
 comment_lines("Gemfile", /jbuilder/)
+gem "kaminari"
 gem_group :development, :test do
   gem "factory_bot_rails"
   gem "faker"
@@ -40,6 +41,10 @@ end
 run "bundle install"
 
 append_to_file(@readme) do <<-'TEXT'
+
+Commented out `coffee-rails` and `jbuilder` because I don't like them or use them.
+
+Added `kaminari` gem to enable pagination.
 
 Added the following gems to the development and test contexts:
 
@@ -166,7 +171,8 @@ if yes?("Do you want to install graphql?")
   run "bundle install"
 
   say "injecting methods into Types::BaseObject class"
-  inject_into_class "app/graphql/types/base_object.rb", 'Types::BaseObject' do <<-'METHODS'
+  # inject_into_class "app/graphql/types/base_object.rb", 'Types::BaseObject' do <<-'METHODS'
+  insert_into_file "app/graphql/typs/base_object.rb", "class BaseObject < GraphQL::Schema::Object\n" do <<-'METHODS'
 
     def created_at_ms
       time_to_ms(object.created_at)
@@ -186,7 +192,8 @@ METHODS
 
 
   say "Injeccting methods into Types::BaseInputObject class"
-  inject_into_class "app/graphql/types/base_input_object.rb", 'Types::BaseInputObject' do <<-'METHODS'
+  # inject_into_class "app/graphql/types/base_input_object.rb", 'Types::BaseInputObject' do <<-'METHODS'
+  insert_into_file "app/graphql/types/base_input_object.rb", "class BaseInputObject < GraphQL::Schema::InputObject\n", do <<-'METHODS'
 
     def ms_to_time(ms)
       Time.at(ms / 1000.0).utc
